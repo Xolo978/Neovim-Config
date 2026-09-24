@@ -1,5 +1,4 @@
 vim.pack.add({
-	-- Existing completion/LSP plugins.
 	{
 		src = "https://github.com/saghen/blink.lib",
 		version = "main",
@@ -33,8 +32,10 @@ vim.pack.add({
 		src = "https://github.com/neovim/nvim-lspconfig",
 		version = "master",
 	},
-
-	-- UI and editing.
+	{
+		src = "https://github.com/catppuccin/nvim",
+		name = "catppuccin",
+	},
 	{
 		src = "https://github.com/nvim-mini/mini.nvim",
 		version = "main",
@@ -55,32 +56,86 @@ vim.pack.add({
 		src = "https://github.com/folke/flash.nvim",
 		version = "main",
 	},
+	{
+		src = "https://github.com/folke/snacks.nvim",
+	},
 }, {
 	confirm = false,
 	load = false,
 })
 
-vim.cmd.packadd("blink.lib")
-vim.cmd.packadd("blink.cmp")
-vim.cmd.packadd("mason.nvim")
-vim.cmd.packadd("mason-lspconfig.nvim")
-vim.cmd.packadd("nvim-lspconfig")
-vim.cmd.packadd("mini.nvim")
-vim.cmd.packadd("flash.nvim")
+-- Core dependencies
 
-vim.cmd.packadd("neo-tree.nvim")
 vim.cmd.packadd("plenary.nvim")
 vim.cmd.packadd("nui.nvim")
 vim.cmd.packadd("nvim-web-devicons")
 
-vim.cmd.packadd("oil.nvim")
+vim.cmd.packadd("catppuccin")
+vim.cmd.packadd("mini.nvim")
 
-require("plugins.blink")
-require("plugins.neo-tree")
-require("plugins.mason")
+require("plugins.catppuccin")
 require("plugins.mini")
 require("plugins.statusline")
-require("plugins.oil")
-require("plugins.flash")
-require("plugins.which-key")
-require("plugins.conform")
+
+-- Completion
+
+vim.cmd.packadd("blink.lib")
+vim.cmd.packadd("blink.cmp")
+
+require("plugins.blink")
+
+-- LSP
+
+vim.cmd.packadd("nvim-lspconfig")
+require("lsp")
+
+-- Deferred plugins
+
+local deferred_loaded = false
+
+local function load_deferred_plugins()
+	if deferred_loaded then
+		return
+	end
+
+	deferred_loaded = true
+
+	vim.cmd.packadd("snacks.nvim")
+	require("plugins.snacks")
+
+	vim.cmd.packadd("mason.nvim")
+	vim.cmd.packadd("mason-lspconfig.nvim")
+
+	vim.cmd.packadd("flash.nvim")
+	vim.cmd.packadd("neo-tree.nvim")
+	vim.cmd.packadd("oil.nvim")
+	vim.cmd.packadd("which-key.nvim")
+	vim.cmd.packadd("conform.nvim")
+
+	require("plugins.mason")
+	require("plugins.flash")
+	require("plugins.neo-tree")
+	require("plugins.oil")
+	require("plugins.which-key")
+	require("plugins.conform")
+
+	if vim.fn.argc() == 0 and vim.api.nvim_buf_get_name(0) == "" and vim.bo.buftype == "" and not vim.bo.modified then
+		vim.schedule(function()
+			require("snacks").dashboard.open()
+		end)
+	end
+end
+
+vim.api.nvim_create_autocmd("UIEnter", {
+	once = true,
+	callback = function()
+		vim.schedule(load_deferred_plugins)
+	end,
+})
+
+-- Snacks is profiler-only.
+
+if vim.env.PROF then
+	vim.cmd.packadd("snacks.nvim")
+	require("plugins.snacks")
+end

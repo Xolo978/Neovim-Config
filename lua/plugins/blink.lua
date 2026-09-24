@@ -4,13 +4,11 @@ blink.setup({
 	keymap = {
 		preset = "enter",
 
-		-- Manual completion.
 		["<C-Space>"] = {
 			"show",
 			"fallback",
 		},
 
-		-- Navigate completion items.
 		["<C-n>"] = {
 			"select_next",
 			"fallback",
@@ -21,7 +19,6 @@ blink.setup({
 			"fallback",
 		},
 
-		-- Accept the selected item.
 		["<CR>"] = {
 			"accept",
 			"fallback",
@@ -30,18 +27,12 @@ blink.setup({
 
 	completion = {
 		trigger = {
-			-- Important: do not open the menu merely because the cursor is
-			-- inside or after a normal keyword.
 			show_on_keyword = false,
 
-			-- Still allow LSP trigger characters such as '.', ':', and '>'.
 			show_on_trigger_character = true,
 
-			-- Prevent completion from appearing when entering insert mode
-			-- on an existing trigger character.
 			show_on_insert_on_trigger_character = false,
 
-			-- Keep completion from reopening unexpectedly after backspace.
 			show_on_backspace = false,
 			show_on_backspace_in_keyword = false,
 			show_on_backspace_after_accept = false,

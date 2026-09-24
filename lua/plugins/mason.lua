@@ -2,6 +2,9 @@ require("mason").setup({
 	ui = {
 		border = "rounded",
 	},
+	registry = {
+		refresh = false,
+	},
 })
 
 require("mason-lspconfig").setup({
