@@ -110,6 +110,56 @@ local highlights = {
 		fg = "#45475a",
 		bg = "#181825",
 	},
+	MiniStatuslineModeNormal = {
+		fg = "#1e2127",
+		bg = "#61afef",
+		bold = true,
+	},
+
+	MiniStatuslineModeInsert = {
+		fg = "#1e2127",
+		bg = "#98c379",
+		bold = true,
+	},
+
+	MiniStatuslineModeVisual = {
+		fg = "#1e2127",
+		bg = "#c678dd",
+		bold = true,
+	},
+
+	MiniStatuslineModeReplace = {
+		fg = "#1e2127",
+		bg = "#e06c75",
+		bold = true,
+	},
+
+	MiniStatuslineModeCommand = {
+		fg = "#1e2127",
+		bg = "#e5c07b",
+		bold = true,
+	},
+
+	MiniStatuslineDevinfo = {
+		fg = "#abb2bf",
+		bg = "#282c34",
+	},
+
+	MiniStatuslineFilename = {
+		fg = "#d7dae0",
+		bg = "#20232a",
+		bold = true,
+	},
+
+	MiniStatuslineFileinfo = {
+		fg = "#abb2bf",
+		bg = "#282c34",
+	},
+
+	MiniStatuslineInactive = {
+		fg = "#5c6370",
+		bg = "#1e2127",
+	},
 }
 
 for group, settings in pairs(highlights) do

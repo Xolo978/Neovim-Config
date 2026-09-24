@@ -312,20 +312,83 @@ map("n", "<S-Tab>", "<cmd>bprevious<cr>", {
 	desc = "Previous buffer",
 })
 
-map("n", "<M-Right>", "<cmd>bnext<cr>", {
-	desc = "Next buffer",
+map("n", "<leader>bd", function()
+	local bufnr = vim.api.nvim_get_current_buf()
+
+	if vim.bo[bufnr].modified then
+		local choice = vim.fn.confirm("Save changes before closing?", "&Yes\n&No\n&Cancel", 1)
+
+		if choice == 1 then
+			vim.cmd.write()
+		elseif choice == 3 then
+			return
+		end
+	end
+
+	vim.cmd.bdelete(bufnr)
+end, {
+	desc = "Close current buffer",
 })
 
-map("n", "<M-Left>", "<cmd>bprevious<cr>", {
-	desc = "Previous buffer",
+map("n", "<leader>ba", "<cmd>enew<cr>", {
+	desc = "Create new buffer",
 })
 
 map("n", "<leader>bb", "<cmd>buffer #<cr>", {
-	desc = "Alternate buffer",
+	desc = "Switch to alternate buffer",
 })
 
 map("n", "<leader>bl", "<cmd>buffers<cr>", {
 	desc = "List buffers",
+})
+
+local function close_current_buffer()
+	local current = vim.api.nvim_get_current_buf()
+
+	-- Ask before closing unsaved changes.
+	if vim.bo[current].modified then
+		local choice = vim.fn.confirm("Save changes before closing?", "&Yes\n&No\n&Cancel", 1)
+
+		if choice == 1 then
+			vim.cmd.write()
+		elseif choice == 3 then
+			return
+		end
+	end
+
+	local listed_buffers = {}
+
+	for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+		if vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].buflisted then
+			table.insert(listed_buffers, bufnr)
+		end
+	end
+
+	-- If this is the last listed buffer, create a hidden replacement buffer
+	-- so Neovim always has somewhere to display the current window.
+	if #listed_buffers <= 1 then
+		vim.cmd.enew()
+
+		local replacement = vim.api.nvim_get_current_buf()
+		vim.bo[replacement].buflisted = false
+		vim.bo[replacement].bufhidden = "wipe"
+		vim.bo[replacement].swapfile = false
+		vim.bo[replacement].modified = false
+
+		if current ~= replacement and vim.api.nvim_buf_is_valid(current) then
+			pcall(vim.api.nvim_buf_delete, current, {
+				force = true,
+			})
+		end
+
+		return
+	end
+
+	vim.cmd("bdelete " .. current)
+end
+
+map("n", "<leader>bd", close_current_buffer, {
+	desc = "Close current buffer",
 })
 
 map("n", "<leader>ut", function()

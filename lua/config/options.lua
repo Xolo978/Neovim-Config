@@ -13,6 +13,7 @@ opt.laststatus = 3
 opt.showmode = false
 opt.termguicolors = true
 opt.virtualedit = "block"
+opt.showtabline = 2
 
 opt.number = true
 opt.relativenumber = true
