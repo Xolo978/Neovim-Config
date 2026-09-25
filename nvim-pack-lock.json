@@ -167,10 +167,10 @@
       "rev": "704b99f10a72cc05d370cfeb294ff83412a8ab55",
       "src": "https://github.com/jake-stewart/multicursor.nvim"
     },
-    "neo-tree.nvim": {
-      "rev": "ebd66767191714e008ce73b769518a763ff31bdc",
-      "src": "https://github.com/nvim-neo-tree/neo-tree.nvim",
-      "version": "3.0.0 - 4.0.0"
+    "nvim-tree.lua": {
+      "rev": "531b807b8f0d6f75016a0ee1e0cd5ce2086e9d95",
+      "src": "https://github.com/nvim-tree/nvim-tree.lua",
+      "version": "1.0.0 - 2.0.0"
     },
     "neogit": {
       "rev": "5adc81b26232954cd7a90f158aa7844c18fc3165",
