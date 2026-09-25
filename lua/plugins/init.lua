@@ -109,7 +109,6 @@ local function load_deferred_plugins()
 
 	require("plugins.mason")
 	require("plugins.flash")
-	require("plugins.mini_files")
 	require("plugins.oil")
 	require("plugins.which-key")
 	require("plugins.conform")

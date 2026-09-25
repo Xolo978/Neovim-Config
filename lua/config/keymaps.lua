@@ -104,16 +104,28 @@ local function toggle_minifiles(side)
 	end
 end
 
+-- map("n", "<leader>e", function()
+-- 	toggle_minifiles("left")
+-- end, {
+-- 	desc = "Toggle MiniFiles",
+-- })
+--
+-- map("n", "<leader>E", function()
+-- 	toggle_minifiles("right")
+-- end, {
+-- 	desc = "Toggle MiniFiles right",
+-- })
+--
 map("n", "<leader>e", function()
 	toggle_minifiles("left")
 end, {
 	desc = "Toggle MiniFiles",
 })
 
-map("n", "<leader>E", function()
-	toggle_minifiles("right")
+map("n", "<leader>e", function()
+	require("filetree").toggle()
 end, {
-	desc = "Toggle MiniFiles right",
+	desc = "Toggle FileTree",
 })
 
 local function find_oil_window()

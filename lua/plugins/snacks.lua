@@ -7,7 +7,7 @@ Snacks.setup({
 		width = 60,
 		row = nil,
 		col = nil,
-		pane_gap = 6,
+		pane_gap = 10,
 
 		preset = {
 			header = [[
