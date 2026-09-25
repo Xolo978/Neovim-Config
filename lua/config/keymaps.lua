@@ -56,25 +56,43 @@ end, {
 })
 
 map("n", "<leader>e", function()
-	require("neo-tree.command").execute({
-		action = "focus",
-		source = "filesystem",
-		position = "left",
-		toggle = true,
+	local api = require("nvim-tree.api")
+
+	api.tree.toggle({
+		find_file = true,
+		focus = true,
+		update_root = false,
 	})
+
+	local tree_win = api.tree.winid()
+
+	if tree_win then
+		vim.api.nvim_win_call(tree_win, function()
+			vim.cmd.wincmd("H")
+		end)
+	end
 end, {
-	desc = "Toggle Neo-tree",
+	desc = "Toggle Nvim-tree",
 })
 
 map("n", "<leader>E", function()
-	require("neo-tree.command").execute({
-		action = "focus",
-		source = "filesystem",
-		position = "right",
-		toggle = true,
+	local api = require("nvim-tree.api")
+
+	api.tree.toggle({
+		find_file = true,
+		focus = true,
+		update_root = false,
 	})
+
+	local tree_win = api.tree.winid()
+
+	if tree_win then
+		vim.api.nvim_win_call(tree_win, function()
+			vim.cmd.wincmd("L")
+		end)
+	end
 end, {
-	desc = "Toggle Neo-tree right",
+	desc = "Toggle Nvim-tree right",
 })
 
 local function find_oil_window()
