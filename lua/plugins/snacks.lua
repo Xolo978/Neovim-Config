@@ -1,103 +1,58 @@
 local Snacks = require("snacks")
 
-local function open_files()
-	Snacks.dashboard.pick("files")
-end
-
-local function live_grep()
-	Snacks.dashboard.pick("live_grep")
-end
-
-local function open_recent()
-	Snacks.dashboard.pick("oldfiles")
-end
-
-local function new_file()
-	vim.cmd("enew")
-end
-
-local function quit()
-	vim.cmd("qa")
-end
-
-local session_section = Snacks.dashboard.sections.session({
-	icon = "   ",
-	title = "Session",
-	padding = 1,
-})
-
 Snacks.setup({
 	dashboard = {
 		enabled = true,
 
-		width = 72,
+		width = 60,
 		row = nil,
 		col = nil,
-		pane_gap = 4,
+		pane_gap = 6,
 
 		preset = {
 			header = [[
-     ╭──────────────────────────────────────────────╮
-     │                   N E O V I M                │
-     ╰──────────────────────────────────────────────╯
-      ]],
+██████╗ ███████╗██╗   ██╗██╗███╗   ███╗
+██╔══██╗██╔════╝██║   ██║██║████╗ ████║
+██║  ██║█████╗  ██║   ██║██║██╔████╔██║
+██║  ██║██╔══╝  ╚██╗ ██╔╝██║██║╚██╔╝██║
+██████╔╝███████╗ ╚████╔╝ ██║██║ ╚═╝ ██║
+╚═════╝ ╚══════╝  ╚═══╝  ╚═╝╚═╝     ╚═╝]],
 
 			keys = {
-				{
-					icon = "   ",
-					key = "f",
-					desc = "Find files",
-					action = open_files,
-				},
-				{
-					icon = "   ",
-					key = "g",
-					desc = "Search project",
-					action = live_grep,
-				},
-				{
-					icon = "   ",
-					key = "r",
-					desc = "Recent files",
-					action = open_recent,
-				},
-				{
-					icon = "   ",
-					key = "s",
-					desc = "Load session",
-					section = "session",
-				},
-				{
-					icon = "   ",
-					key = "n",
-					desc = "New buffer",
-					action = new_file,
-				},
-				{
-					icon = "   ",
-					key = "q",
-					desc = "Quit",
-					action = quit,
-				},
+				{ icon = " ", key = "f", desc = "Find files", action = ":lua Snacks.dashboard.pick('files')" },
+				{ icon = " ", key = "g", desc = "Search project", action = ":lua Snacks.dashboard.pick('live_grep')" },
+				{ icon = " ", key = "r", desc = "Recent files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+				{ icon = " ", key = "s", desc = "Load session", section = "session" },
+				{ icon = " ", key = "n", desc = "New buffer", action = ":ene | startinsert" },
+				{ icon = " ", key = "q", desc = "Quit", action = ":qa" },
 			},
 		},
 
 		sections = {
+			-- left pane
+			{ section = "header", padding = 1 },
+			{ section = "keys", gap = 1, padding = 1 },
 			{
-				section = "header",
+				section = "session",
+				icon = " ",
+				title = "Session",
 				padding = 1,
 			},
-
+			-- right pane
 			{
-				section = "keys",
-				gap = 1,
+				pane = 2,
+				icon = " ",
+				title = "Recent Files",
+				section = "recent_files",
+				indent = 2,
 				padding = 1,
 			},
-
-			session_section,
-
 			{
-				section = "startup",
+				pane = 2,
+				icon = " ",
+				title = "Projects",
+				section = "projects",
+				indent = 2,
 				padding = 1,
 			},
 		},
@@ -131,25 +86,16 @@ Snacks.setup({
 
 vim.keymap.set("n", "<leader>pp", function()
 	Snacks.profiler.toggle()
-end, {
-	desc = "Toggle profiler",
-})
+end, { desc = "Toggle profiler" })
 
 vim.keymap.set("n", "<leader>ps", function()
 	Snacks.profiler.scratch()
-end, {
-	desc = "Profiler scratch",
-})
+end, { desc = "Profiler scratch" })
 
 vim.keymap.set("n", "<leader>ph", function()
 	Snacks.profiler.highlight()
-end, {
-	desc = "Toggle profiler highlights",
-})
+end, { desc = "Toggle profiler highlights" })
 
 vim.keymap.set("n", "<leader>dd", function()
 	Snacks.dashboard.open()
-end, {
-	desc = "Open dashboard",
-})
-
+end, { desc = "Open dashboard" })
