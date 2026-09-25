@@ -4,10 +4,6 @@ vim.pack.add({
 		version = "main",
 	},
 	{
-		src = "https://github.com/nvim-tree/nvim-tree.lua",
-		version = vim.version.range("1"),
-	},
-	{
 		src = "https://github.com/nvim-lua/plenary.nvim",
 	},
 	{
@@ -107,14 +103,13 @@ local function load_deferred_plugins()
 	vim.cmd.packadd("mason-lspconfig.nvim")
 
 	vim.cmd.packadd("flash.nvim")
-	vim.cmd.packadd("nvim-tree.lua")
 	vim.cmd.packadd("oil.nvim")
 	vim.cmd.packadd("which-key.nvim")
 	vim.cmd.packadd("conform.nvim")
 
 	require("plugins.mason")
 	require("plugins.flash")
-	require("plugins.nvim-tree")
+	require("plugins.mini_files")
 	require("plugins.oil")
 	require("plugins.which-key")
 	require("plugins.conform")

@@ -55,44 +55,65 @@ end, {
 	desc = "Show keymaps",
 })
 
-map("n", "<leader>e", function()
-	local api = require("nvim-tree.api")
+local function find_minifiles_window()
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		if vim.api.nvim_win_is_valid(win) then
+			local buf = vim.api.nvim_win_get_buf(win)
 
-	api.tree.toggle({
-		find_file = true,
-		focus = true,
-		update_root = false,
-	})
+			if vim.bo[buf].filetype == "minifiles" then
+				return win
+			end
+		end
+	end
 
-	local tree_win = api.tree.winid()
+	return nil
+end
 
-	if tree_win then
-		vim.api.nvim_win_call(tree_win, function()
-			vim.cmd.wincmd("H")
+local function minifiles_anchor_path()
+	local current_file = vim.api.nvim_buf_get_name(0)
+
+	if current_file ~= "" then
+		return current_file
+	end
+
+	return vim.uv.cwd() or vim.fn.getcwd()
+end
+
+local function toggle_minifiles(side)
+	local mini_files = require("mini.files")
+	local mini_files_window = find_minifiles_window()
+
+	if mini_files_window then
+		vim.api.nvim_win_call(mini_files_window, mini_files.close)
+		return
+	end
+
+	local target_window = vim.api.nvim_get_current_win()
+
+	mini_files.open(minifiles_anchor_path(), true)
+	mini_files.set_target_window(target_window)
+
+	-- mini.files uses floating column windows; this keeps the old left/right
+	-- intent as closely as possible when placing the focused explorer column.
+	local opened_window = find_minifiles_window()
+
+	if opened_window then
+		vim.api.nvim_win_call(opened_window, function()
+			vim.cmd.wincmd(side == "right" and "L" or "H")
 		end)
 	end
+end
+
+map("n", "<leader>e", function()
+	toggle_minifiles("left")
 end, {
-	desc = "Toggle Nvim-tree",
+	desc = "Toggle MiniFiles",
 })
 
 map("n", "<leader>E", function()
-	local api = require("nvim-tree.api")
-
-	api.tree.toggle({
-		find_file = true,
-		focus = true,
-		update_root = false,
-	})
-
-	local tree_win = api.tree.winid()
-
-	if tree_win then
-		vim.api.nvim_win_call(tree_win, function()
-			vim.cmd.wincmd("L")
-		end)
-	end
+	toggle_minifiles("right")
 end, {
-	desc = "Toggle Nvim-tree right",
+	desc = "Toggle MiniFiles right",
 })
 
 local function find_oil_window()
