@@ -8,11 +8,11 @@ catppuccin.setup({
 		dark = "mocha",
 	},
 
-	transparent_background = false,
+	transparent_background = true,
 
 	float = {
-		transparent = false,
-		solid = true,
+		transparent = true,
+		solid = false,
 	},
 
 	term_colors = true,

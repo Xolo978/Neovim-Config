@@ -66,10 +66,10 @@ vim.cmd.packadd("plenary.nvim")
 vim.cmd.packadd("nui.nvim")
 vim.cmd.packadd("nvim-web-devicons")
 
-vim.cmd.packadd("catppuccin")
+-- vim.cmd.packadd("catppuccin")
 vim.cmd.packadd("mini.nvim")
 
-require("plugins.catppuccin")
+-- require("plugins.catppuccin")
 require("plugins.mini")
 require("plugins.statusline")
 

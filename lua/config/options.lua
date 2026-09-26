@@ -67,7 +67,7 @@ opt.shortmess:append({
 opt.foldenable = true
 opt.foldlevel = 99
 opt.foldmethod = "indent"
-
+opt.guicursor:append("a:blinkon0")
 opt.fillchars = {
 	eob = " ",
 	fold = " ",
